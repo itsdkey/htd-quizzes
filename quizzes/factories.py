@@ -1,9 +1,10 @@
 from datetime import UTC
 
 import factory
+import faker
 from factory.fuzzy import FuzzyChoice, FuzzyInteger
 
-from quizzes.models import Answer, Question, QuestionType, Quiz
+from quizzes.models import Answer, Question, QuestionType, Quiz, AnswerRating
 
 
 class QuizFactory(factory.django.DjangoModelFactory):
@@ -37,3 +38,14 @@ class AnswerFactory(factory.django.DjangoModelFactory):
 
     question = factory.SubFactory(QuestionFactory)
     description = factory.Faker("text", max_nb_chars=100)
+    points = FuzzyInteger(0, 10)
+
+
+class AnswerRatingFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = AnswerRating
+
+    quiz = factory.SubFactory(QuizFactory)
+    min_value = FuzzyInteger(0, 10)
+    max_value = FuzzyInteger(1, 20)
+    content = faker.Faker("text", max_nb_chars=50)
