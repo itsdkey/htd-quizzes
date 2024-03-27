@@ -1,0 +1,31 @@
+version: "3.9"
+services:
+  app:
+    build: .
+    container_name: backend-app
+    command: [ "local_entrypoint.sh" ]
+    depends_on:
+      - db
+    env_file: .env
+    ports:
+      - '8000:8000'
+    volumes:
+      - '.:/app'
+
+  db:
+    container_name: backend-db
+    env_file: .env
+    image: 'postgres:16.2-alpine'
+    ports:
+      - "5431:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  wdb:
+    image: 'kozea/wdb:3.3.0'
+    container_name: wdb
+    ports:
+      - '1984:1984'
+
+volumes:
+  db-data:
