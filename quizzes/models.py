@@ -52,3 +52,10 @@ class Answer(models.Model):
 
     def __str__(self) -> str:
         return self.description
+
+
+class AnswerRating(models.Model):
+    quiz = models.ForeignKey(to="quizzes.Quiz", on_delete=models.CASCADE)
+    min_value = models.PositiveSmallIntegerField(default=0)
+    max_value = models.PositiveSmallIntegerField(default=0)
+    content = models.CharField(max_length=128)
